@@ -1,19 +1,19 @@
 // Import mysql library
 const mysql = require('mysql');
 
-const connectDB = async() => {
-    try {
-        const con = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: 'password',
-            database: 'testdata',
-        });
-        
-    } catch (err) {
-        console.log(`Error: ${err.message}`);
-        process.exit(1);
-    }
-}
+const con = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'testdata',
+});
 
-module.exports = connectDB;
+con.connect((err) => {
+    if(err){
+        console.log(err.message);
+    } else {
+        console.log('Connected to database');
+    }
+});
+
+module.exports = con;

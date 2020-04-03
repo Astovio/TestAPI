@@ -1,6 +1,5 @@
 const bodyParser = require('body-parser');
 const express = require('express');
-const handlebars = require('express-handlebars');
 const morgan = require('morgan');
 
 const mainRouter = require('./routes/router');
@@ -12,13 +11,6 @@ const filesRouter = require('./routes/files');
 const app = express();
 
 app.use(morgan('dev'));
-
-app.set('view engine', 'handlebars');
-app.engine('handlebars', handlebars({
-    layoutsDir: __dirname + '/views/layouts',
-    defaultLayout: 'index',
-}));
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 

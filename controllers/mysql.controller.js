@@ -12,6 +12,9 @@ const con = mysql.createConnection({
 */
 
 // Export all the following functions:
+
+const con = require('../config/db');
+
 module.exports = {
 
     // @desc    Searches for tests based on tr# and/or tool brand/model/type
@@ -25,15 +28,18 @@ module.exports = {
         let params = [];
         // Get search parameters from url. 
         // If a particular parameter doesn't exist, pass null value.
-        params.push(req.query.brand ? req.query.brand : null);
-        params.push(req.query.type ? req.query.type : null);
-        params.push(req.query.tr ? req.query.tr : null);
-        params.push(req.query.model ? req.query.model : null);
+        params.push(req.body.brand ? req.body.brand : null);
+        params.push(req.body.type ? req.body.type : null);
+        params.push(req.body.tr ? req.body.tr : null);
+        params.push(req.body.model ? req.body.model : null);
         const q = "CALL searchSQL(?,?,?,?);";        // Build query string with placeholders
         con.query(q, params, (err,rows) => {         // Call con.query(queryString, parameter Values, callback)
-            res.send(rows);                          // Send results to browser
+            res.status(200).json({
+                status: "Success",
+                data: rows
+            });                          // Send results to browser
         });
-        next(); // Go to next middleware function.
+        //next(); // Go to next middleware function.
     },
 
 
@@ -42,9 +48,9 @@ module.exports = {
     // This will be used as a middleware function to get testIDs for the addFile query.
     getTestID: function(req,res,next){
         let params = [];
-        params.push(req.query.tr ? req.query.tr : null);
-        params.push(req.query.doc ? req.query.doc : null);
-        params.push(req.query.sec ? req.query.sec : null);
+        params.push(req.body.tr ? req.body.tr : null);
+        params.push(req.body.doc ? req.body.doc : null);
+        params.push(req.body.sec ? req.body.sec : null);
         const q = "CALL getTestID(?,?,?);";
         con.query(q,params, (err, result) => {
             console.log(result);
@@ -58,7 +64,6 @@ module.exports = {
     // @access  Public
     addTest: function(req,res,next){
         let params = [];
-        console.log(req.body);
         params.push(req.body.tr);
         params.push(req.body.doc);
         params.push(req.body.sec);
@@ -70,6 +75,51 @@ module.exports = {
             } else {
                 res.render('addtest', {postStatus: 'Success!'})
                 console.log(response);
+            };
+        });
+    },
+
+    patchTool: function(req,res,next){
+        let params = [];
+        params.push(req.params.modelID);
+        params.push(req.body.desc ? req.body.desc : null);
+        params.push(req.body.brand ? req.body.brand : null);
+        params.push(req.body.type ? req.body.type : null);
+        const q = "CALL patchTool(?,?,?,?);";
+        con.query(q, params, (err, rows) => {
+            if(err) {
+                res.status(500).json({
+                    status: "Error!",
+                    message: err.message 
+                });
+            } else {
+                res.status(200).json({
+                    status: "Success!",
+                    message: rows
+                });
+            };
+        });
+    },
+
+    patchTest: function(req,res,next){
+        let params = [];
+        params.push(parseInt(req.params.testID));
+        params.push(req.body.tr ? req.body.tr : null);
+        params.push(req.body.document ? req.body.document : null);
+        params.push(req.body.section ? req.body.section : null);
+        console.log(params);
+        const q = "CALL patchTest(?,?,?,?);";
+        con.query(q, params, (err, rows) => {
+            if(err) {
+                res.status(500).json({
+                    status: "Error!",
+                    message: err.message 
+                });
+            } else {
+                res.status(200).json({
+                    status: "Success!",
+                    message: rows
+                });
             };
         });
     }
