@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+
+body {
+    font-family: Arial, "Montserrat", sans-serif;
+    margin: 0;
+}
+
+.hero-bg {
+    background: #2D7D98 url('../images/bg.jpg');
+    background-position: 0% 83%;
+    color: white;
+    text-align: center;
+    padding-bottom: 5em;
+}
+
+header {
+    padding: 1em 0;
+
+}
+
+.hero-bg a {
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+section {
+    margin: 0 1em;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin: 2em 0 1.2em;
+
+}
+
+h1 span {
+    text-transform: uppercase;
+    display: block;
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 1;
+}
+
+h1 span::before{
+    content: '';
+    position: absolute;
+    width: 4.5em;
+    background: #00BFFF;
+    height: .4em;
+    bottom: 0;
+    z-index: -1;
+    margin-left: -.3em;
+}
+
+.hero-bg p {
+    font-weight: bold;
+    margin: 0 0.5em 3em;
+
+}
+
+.form-container {
+    background-color: white;
+    margin: 2em -1em 0;
+    padding: 2em;
+
+}
+
+.form-container label {
+    color: #2D7D98;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 1em;
+    font-size: 1.2em;
+}
+
+.form-container input[type=text] {
+    border: 1px solid #707070;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1em;
+    border-radius: 1em;
+    margin: 0.5em 0 .5em 0;
+}
+
+.form-container p {
+    color: gray;
+    font-weight: normal;
+    font-size: 0.9em;
+    margin: 0.1em 0 2em 0;
+    display: block;
+}
+
+.form-container input[type=button]{
+    background-color: #F89104;
+    border: none;
+    border-radius: 1em;
+    width: 100%;
+    color: white;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 0.8em 0;
+    cursor: pointer;
+}
+
+.form-container input[type=button]:hover{
+    background-color: rgb(226, 138, 14);
+}
+
+.authentic {
+    margin: 0;
+}
+
+.right-col {
+    margin: 1em 1em;
+    color: rgb(65, 65, 65);
+}
+
+.right-col h2 {
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+}
+
+.right-col h2::before{
+    content: '';
+    position: absolute;
+    width: 11em;
+    background: rgb(199, 241, 255);
+    height: .4em;
+    bottom: 0;
+    z-index: -1;
+    margin-left: -.3em;
+}
+
+.right-col p {
+    line-height: 1.8em;
+}
+
+.rotator {
+    width: 100px;
+    height: auto;
+}
+
+/* .rotator p {
+    animation: imgrotate 2s infinite linear; 
+}
+@keyframes imgrotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+} */
+
+i {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    animation: imgrotate 1s ;
+  }
+
+  .right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+
+  @keyframes imgrotate {
+    from {
+        transform: rotate(-45deg);
+    }
+    to {
+        transform: rotate(45deg);
+    }
+} 
+
+
+.authentic img {
+    width: 100%;
+}
+
+@media (min-width: 600px) {
+
+    section {
+        margin: 0 4em;
+    }
+
+    .form-container {
+        margin: 2em -4em 0;
+    }
+
+}
+
+@media (min-width: 930px) {
+
+    .hero-bg {
+        text-align: left;
+    }
+
+    .hero-bg p{
+        margin: 0 0 3em;
+    }
+    
+    .hero-bg section {
+        width: 65%;
+    }
+
+    .form-container {
+        padding: 2em;
+        margin: 2em 0 0;
+        border-radius: 1em;
+        box-shadow: 10px 10px 10px rgba(0,0,0,0.3)
+    }
+
+    form {
+        display: flex;   
+    }
+
+    .form-left {
+        width: 70%;
+    }
+
+    label {
+        margin: 0;
+    }
+
+    .form-container input[type=button] {
+        height: 3em;
+        font-size: 1.1em;
+        margin-left: 1em;
+        margin-top: 2.2em;
+        padding: 0.7em 0;
+        width: 30%;
+    }
+
+    .hero-bg p {
+        margin-bottom: 0;
+    }
+
+    section.authentic {
+        display: grid;
+        grid-template-columns: repeat(2, 50%);
+        grid-template-areas: "bowl content";
+    }
+
+    .right-col {
+        grid-area: content; 
+    }
+
+    img {
+        grid-area: bowl;
+    }
+}
