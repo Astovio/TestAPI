@@ -13,6 +13,13 @@ router.get('/', (req, res, next) => {
     });
 });
 
+/* Expects a req.body json in the format of:
+{
+	"tr": "2020-00008",
+	"document": "New Document",
+	"section": "2.15"
+}
+*/
 router.post('/', (req, res, next) => {
     let test = []
     test.push(req.body.tr ? req.body.tr : null);
@@ -53,6 +60,15 @@ router.get('/:testID', (req, res, next) => {
     });
 });
 
+/*  Expects a req.body json in the following format:
+    Any field other than the "testID" field can be ommitted to retain the old value.
+{
+    "testID": "123",
+	"tr": "2020-00008",
+	"document": "New Document",
+	"section": "2.15"
+}
+*/
 router.patch('/:testID', mysql.patchTest);
 
 router.delete('/:testID', (req, res, next) => {

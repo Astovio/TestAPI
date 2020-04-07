@@ -42,23 +42,6 @@ module.exports = {
         //next(); // Go to next middleware function.
     },
 
-
-    // This function is not ready. parameters for this won't be passed through
-    // a URL query. I have to figure out where this info is coming from.
-    // This will be used as a middleware function to get testIDs for the addFile query.
-    getTestID: function(req,res,next){
-        let params = [];
-        params.push(req.body.tr ? req.body.tr : null);
-        params.push(req.body.doc ? req.body.doc : null);
-        params.push(req.body.sec ? req.body.sec : null);
-        const q = "CALL getTestID(?,?,?);";
-        con.query(q,params, (err, result) => {
-            console.log(result);
-        });
-        next();
-    },
-
-
     // @desc    Parses request data and adds data to the test table in the database
     // @routes  POST /addtest
     // @access  Public
@@ -101,13 +84,21 @@ module.exports = {
         });
     },
 
+    /*  Expects a req.body json in the following format:
+    Any field other than the "testID" field can be ommitted to retain the old value.
+    {
+        "testID": "123",
+        "tr": "2020-00008",
+        "document": "New Document",
+        "section": "2.15"
+    }
+    */
     patchTest: function(req,res,next){
         let params = [];
         params.push(parseInt(req.params.testID));
         params.push(req.body.tr ? req.body.tr : null);
         params.push(req.body.document ? req.body.document : null);
         params.push(req.body.section ? req.body.section : null);
-        console.log(params);
         const q = "CALL patchTest(?,?,?,?);";
         con.query(q, params, (err, rows) => {
             if(err) {
@@ -122,6 +113,43 @@ module.exports = {
                 });
             };
         });
+    },
+
+    // Changes fields on the files table.
+    // TODO: Add error handling of null fileID and testID
+    /*  Expects a req.body json in the following format:
+    Any field other than the "fileID" field can be ommitted to retain the old value.
+    {
+	"fileID": "234",
+	"testID": "123",
+    "technician": "Holmes",
+    "model": "P123",
+	"meta_data": "meta data goes here",
+	"file_path": "server/filename"
     }
+    */
+    patchFile: function(req,res,next){
+        let params = [];
+        file.push(req.body.fileID ? parseInt(req.body.fileID) : null);
+        file.push(req.body.testID ? parseInt(req.body.testID) : null);
+        file.push(req.body.technician ? req.body.technician : null);
+        file.push(req.body.model ? req.body.model : null);
+        file.push(req.body.meta_data ? req.body.meta_data : null);
+        file.push(req.body.path ? req.body.path : null);
+        const q = "CALL patchFile(?,?,?,?,?,?);";
+        con.query(q, params, (err, rows) => {
+            if(err) {
+                res.status(500).json({
+                    status: "Error!",
+                    message: err.message 
+                });
+            } else {
+                res.status(200).json({
+                    status: "Success!",
+                    message: rows
+                });
+            };
+        });
+    },
 
 };

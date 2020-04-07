@@ -7,12 +7,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `searchSQL`(
 BEGIN
 	SELECT * FROM tools
     INNER JOIN test
-    INNER JOIN datastore
+    INNER JOIN files
     WHERE 
     (brandname IS NULL OR tools.brand = brandname)
     AND (producttype IS NULL OR tools.tool_type = producttype)
     AND (TRnumber IS NULL OR test.tr_id = TRnumber)
     AND (model IS NULL OR tools.model_id = model)
-    AND tools.model_id = datastore.model_id
-    AND test.test_id = datastore.test_id;
+    AND tools.model_id = files.model_id
+    AND test.test_id = files.test_id;
 END

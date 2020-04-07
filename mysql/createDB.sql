@@ -30,7 +30,7 @@ CREATE TABLE test(
 );
 
 -- This table will list all of the individual files available on the server.
-CREATE TABLE datastore(
+CREATE TABLE files(
     file_id INT AUTO_INCREMENT, -- unique surrogate ID - is NOT related to # files associated with a single test
     test_id INT NOT NULL, -- link to test table
     date_added DATE, -- Date uploaded
@@ -39,7 +39,7 @@ CREATE TABLE datastore(
     meta_data VARCHAR(128),  -- We may want to look at this data type. Possibly break it up
                              -- into individual fields? What info do we actually want?
     file_path VARCHAR(128),  -- Is this going to be long enough?
-    PRIMARY KEY (file_id,test_id),
+    PRIMARY KEY (file_id),
     FOREIGN KEY (model_id) REFERENCES tools(model_id) ON DELETE SET NULL,
     FOREIGN KEY (test_id) REFERENCES test(test_id) ON DELETE CASCADE
         -- ON DELETE: If the TR or individual test disappears, do we want the data store
